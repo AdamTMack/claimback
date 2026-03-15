@@ -1,0 +1,29 @@
+{
+  "name": "ClaimBack - Fight Your Medical Bills",
+  "short_name": "ClaimBack",
+  "description": "Free tool to fight unfair medical bills. Generate dispute letters, learn your legal rights. No accounts, no tracking.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8f6f1",
+  "theme_color": "#3868a8",
+  "orientation": "portrait-primary",
+  "categories": ["health", "finance", "utilities"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/icons/icon-maskable-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

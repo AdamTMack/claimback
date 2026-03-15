@@ -1,26 +1,73 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8f6f1;
+  --foreground: #1f2a24;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: var(--font-karla);
+  --font-serif: var(--font-fraunces);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Prose typography overrides for warm theme */
+.prose {
+  --tw-prose-body: #5c6b62;
+  --tw-prose-headings: #1f2a24;
+  --tw-prose-bold: #1f2a24;
+  --tw-prose-links: #3868a8;
+  --tw-prose-counters: #5c6b62;
+  --tw-prose-bullets: #5b8a6e;
+  --tw-prose-hr: #e2ddd3;
+  --tw-prose-quotes: #5c6b62;
+  --tw-prose-quote-borders: #e2ddd3;
+  --tw-prose-th-borders: #e2ddd3;
+  --tw-prose-td-borders: #e2ddd3;
+}
+
+/* Print styles for letter generation */
+@media print {
+  header,
+  footer,
+  nav,
+  .no-print,
+  [class*="DisclaimerBanner"],
+  [class*="ProgressBar"] {
+    display: none !important;
+  }
+
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  #letter-content {
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Fade-in animation for step transitions */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.35s ease-out;
 }
