@@ -1,0 +1,263 @@
+{
+  "id": "itemized-bill",
+  "version": "1.0.0",
+  "title": "Itemized Bill Request",
+  "description": "Generate a letter requesting a detailed itemized bill from your healthcare provider",
+  "initialNode": "why_itemize",
+  "lastUpdated": "2026-03-15",
+  "nodes": {
+    "why_itemize": {
+      "id": "why_itemize",
+      "type": "info",
+      "title": "Why request an itemized bill?",
+      "body": "The bill you received is probably a summary. It shows a total but not the individual charges. An itemized bill breaks down every single service, procedure, and supply with its billing code and price.\n\nThis is your most powerful tool because:\n\n\u2022 49-80% of medical bills contain errors\n\u2022 The average hospital bill over $10,000 has about $1,300 in overcharges\n\u2022 You can't dispute what you can't see",
+      "callout": {
+        "type": "tip",
+        "text": "Requesting an itemized bill is free, it's your right, and many bills drop in price just from asking, because providers know errors will be found."
+      },
+      "next": "collect_provider_info"
+    },
+    "collect_provider_info": {
+      "id": "collect_provider_info",
+      "type": "input",
+      "prompt": "Who sent you the bill?",
+      "subtext": "Enter the name and address from the bill you received. This is who we'll address the letter to.",
+      "fields": [
+        {
+          "key": "providerName",
+          "label": "Provider / Hospital name",
+          "inputType": "text",
+          "placeholder": "e.g., General Hospital, Dr. Smith's Office",
+          "required": true
+        },
+        {
+          "key": "billingDepartment",
+          "label": "Billing department or address line",
+          "inputType": "text",
+          "placeholder": "e.g., Patient Billing Department",
+          "required": false
+        },
+        {
+          "key": "providerStreet",
+          "label": "Street address",
+          "inputType": "text",
+          "placeholder": "123 Medical Center Dr",
+          "required": true
+        },
+        {
+          "key": "providerCity",
+          "label": "City",
+          "inputType": "text",
+          "required": true
+        },
+        {
+          "key": "providerState",
+          "label": "State",
+          "inputType": "state-select",
+          "required": true
+        },
+        {
+          "key": "providerZip",
+          "label": "ZIP code",
+          "inputType": "text",
+          "placeholder": "12345",
+          "required": true,
+          "validation": {
+            "pattern": "^\\d{5}(-\\d{4})?$",
+            "message": "Please enter a valid ZIP code (e.g., 12345 or 12345-6789)"
+          }
+        }
+      ],
+      "next": "collect_bill_details"
+    },
+    "collect_bill_details": {
+      "id": "collect_bill_details",
+      "type": "input",
+      "prompt": "Tell us about the bill",
+      "subtext": "You can find this information on the bill you received. If you don't have all the details, fill in what you can.",
+      "fields": [
+        {
+          "key": "accountNumber",
+          "label": "Account or reference number",
+          "inputType": "text",
+          "placeholder": "Usually at the top of your bill",
+          "required": false
+        },
+        {
+          "key": "dateOfService",
+          "label": "Date of service",
+          "inputType": "date",
+          "required": true
+        },
+        {
+          "key": "billAmount",
+          "label": "Total amount billed",
+          "inputType": "currency",
+          "placeholder": "0.00",
+          "required": true,
+          "validation": {
+            "min": 0,
+            "message": "Please enter a valid amount"
+          }
+        }
+      ],
+      "next": "collect_sender_info"
+    },
+    "collect_sender_info": {
+      "id": "collect_sender_info",
+      "type": "input",
+      "prompt": "Your information",
+      "subtext": "This is who the letter is from. Your name and address will appear at the top of the letter.",
+      "meta": {
+        "helpText": "We need your name and address so the provider can identify your account and respond to you. This information stays in your browser."
+      },
+      "fields": [
+        {
+          "key": "senderName",
+          "label": "Your full name",
+          "inputType": "text",
+          "placeholder": "As it appears on your medical records",
+          "required": true
+        },
+        {
+          "key": "senderStreet",
+          "label": "Your street address",
+          "inputType": "text",
+          "required": true
+        },
+        {
+          "key": "senderCity",
+          "label": "City",
+          "inputType": "text",
+          "required": true
+        },
+        {
+          "key": "senderState",
+          "label": "State",
+          "inputType": "state-select",
+          "required": true
+        },
+        {
+          "key": "senderZip",
+          "label": "ZIP code",
+          "inputType": "text",
+          "required": true,
+          "validation": {
+            "pattern": "^\\d{5}(-\\d{4})?$",
+            "message": "Please enter a valid ZIP code"
+          }
+        }
+      ],
+      "next": "already_itemized"
+    },
+    "already_itemized": {
+      "id": "already_itemized",
+      "type": "question",
+      "prompt": "Have you already received an itemized bill?",
+      "subtext": "An itemized bill lists each individual charge with a billing code (like CPT or HCPCS). A summary bill just shows a total.",
+      "inputType": "radio",
+      "options": [
+        {
+          "label": "No, I only have a summary bill",
+          "value": "no",
+          "next": "in_collections"
+        },
+        {
+          "label": "Yes, I already have an itemized bill",
+          "value": "yes",
+          "helpText": "Great! You may want to review it for errors instead.",
+          "next": "already_have_tip"
+        },
+        {
+          "label": "I'm not sure",
+          "value": "unsure",
+          "helpText": "If it only shows a total amount without individual line items, it's a summary.",
+          "next": "in_collections"
+        }
+      ]
+    },
+    "already_have_tip": {
+      "id": "already_have_tip",
+      "type": "info",
+      "title": "Good, you're ahead of the game",
+      "body": "Since you already have an itemized bill, here are things to look for:\n\n\u2022 Duplicate charges (same service billed twice)\n\u2022 Services you don't remember receiving\n\u2022 Charges that seem unreasonably high\n\u2022 Operating room time that seems too long\n\u2022 Medications you weren't given\n\nIf you find anything suspicious, you may want to use our other tools to dispute those specific charges.",
+      "callout": {
+        "type": "tip",
+        "text": "You can still generate the request letter. It's useful to have a formal record that you've requested full documentation."
+      },
+      "next": "in_collections"
+    },
+    "in_collections": {
+      "id": "in_collections",
+      "type": "question",
+      "prompt": "Has this bill been sent to a collections agency?",
+      "subtext": "If a collections agency has contacted you (not the original provider), your situation requires different protections.",
+      "inputType": "radio",
+      "options": [
+        {
+          "label": "No, it's still with the original provider",
+          "value": "no",
+          "next": "generate_letter"
+        },
+        {
+          "label": "Yes, a collector has contacted me",
+          "value": "yes",
+          "next": "collections_warning"
+        },
+        {
+          "label": "I'm not sure",
+          "value": "unsure",
+          "helpText": "If the bill came from a company different than where you received care, it may be in collections.",
+          "next": "generate_letter"
+        }
+      ]
+    },
+    "collections_warning": {
+      "id": "collections_warning",
+      "type": "info",
+      "title": "Important: bills in collections need additional action",
+      "body": "When a bill is in collections, you have additional rights under the Fair Debt Collection Practices Act (FDCPA). We'll generate your itemized bill request, but you should also consider filing a debt validation demand with the collector.\n\nAfter you finish here, we recommend using our Debt Validation tool.",
+      "callout": {
+        "type": "deadline",
+        "text": "You have 30 days from receiving the collector's written notice to demand debt validation. If that window is still open, act quickly."
+      },
+      "next": "generate_letter"
+    },
+    "generate_letter": {
+      "id": "generate_letter",
+      "type": "terminal",
+      "templateId": "itemized-bill-request",
+      "letterTitle": "Itemized Bill Request",
+      "nextSteps": [
+        {
+          "text": "Print this letter and send it via certified mail with return receipt requested",
+          "details": "Certified mail creates a legal record that the provider received your request. Keep the receipt.",
+          "critical": true
+        },
+        {
+          "text": "Keep a copy of everything",
+          "details": "Save a copy of the letter, the certified mail receipt, and the original bill you received.",
+          "critical": true
+        },
+        {
+          "text": "Wait for the itemized bill (allow 30 days)",
+          "details": "Most providers respond within 2-4 weeks. If they don't respond within 30 days, you have grounds to file a complaint.",
+          "deadlineDays": 30,
+          "critical": false
+        },
+        {
+          "text": "Review the itemized bill carefully when it arrives",
+          "details": "Look for duplicate charges, services you don't remember, and charges that seem unreasonably high. Our Playbook guide on itemized bills can help.",
+          "critical": false
+        },
+        {
+          "text": "If they don't respond, file a complaint with your state Attorney General",
+          "details": "Failure to provide an itemized bill when requested is a violation of patient rights in most states.",
+          "critical": false
+        }
+      ],
+      "relatedWorkflows": ["charity-care", "debt-validation"],
+      "relatedGuides": ["itemized-bills-101"]
+    }
+  }
+}

@@ -1,0 +1,341 @@
+{
+  "id": "no-surprises-act",
+  "version": "1.0.0",
+  "title": "No Surprises Act Dispute",
+  "description": "Dispute a bill that exceeds your Good Faith Estimate under the No Surprises Act",
+  "initialNode": "what_is_nsa",
+  "lastUpdated": "2026-03-15",
+  "nodes": {
+    "what_is_nsa": {
+      "id": "what_is_nsa",
+      "type": "info",
+      "title": "The No Surprises Act protects you when bills exceed estimates",
+      "body": "Since January 2022, healthcare providers must give uninsured and self-pay patients a Good Faith Estimate (GFE) of expected charges before scheduled services.\n\nIf your actual bill exceeds that estimate by $400 or more, you have the right to dispute the difference through an independent Patient-Provider Dispute Resolution (PPDR) process. While the dispute is pending, the provider must stop all collection activity.",
+      "callout": {
+        "type": "legal-right",
+        "text": "Under the No Surprises Act (Public Law 116-260), you must file your dispute within 120 calendar days of receiving the bill."
+      },
+      "next": "gfe_received"
+    },
+    "gfe_received": {
+      "id": "gfe_received",
+      "type": "question",
+      "prompt": "Did you receive a Good Faith Estimate before your service?",
+      "subtext": "A Good Faith Estimate is a written document listing expected charges. You may have received it by email, patient portal, or mail before a scheduled procedure.",
+      "inputType": "radio",
+      "options": [
+        {
+          "label": "Yes, I have my Good Faith Estimate",
+          "value": "yes",
+          "next": "insurance_status"
+        },
+        {
+          "label": "I think so, but I need to find it",
+          "value": "maybe",
+          "helpText": "Check your email, patient portal, or paperwork from before the procedure.",
+          "next": "find_gfe_tip"
+        },
+        {
+          "label": "No, I was never given one",
+          "value": "no",
+          "next": "no_gfe_info"
+        }
+      ]
+    },
+    "no_gfe_info": {
+      "id": "no_gfe_info",
+      "type": "info",
+      "title": "You may still have options, even without a GFE",
+      "body": "The No Surprises Act GFE dispute process specifically requires that you were given a Good Faith Estimate. Without one, this particular dispute pathway won't apply.\n\nHowever, providers are required to give you a GFE for scheduled services if you are uninsured or self-pay. If they failed to do so, that itself may be a violation.\n\nHere's what you can do instead:\n\n\u2022 Request an itemized bill to check for errors\n\u2022 Apply for financial assistance if you can't afford the bill\n\u2022 File a complaint with CMS at cms.gov/nosurprises about not receiving a GFE\n\u2022 Negotiate directly with the provider",
+      "callout": {
+        "type": "tip",
+        "text": "Start by requesting an itemized bill. Most billing errors are found there, and an itemized bill gives you an advantage in any negotiation."
+      },
+      "next": "no_gfe_redirect"
+    },
+    "no_gfe_redirect": {
+      "id": "no_gfe_redirect",
+      "type": "redirect",
+      "targetTree": "itemized-bill",
+      "reason": "Let's start with an itemized bill request instead"
+    },
+    "find_gfe_tip": {
+      "id": "find_gfe_tip",
+      "type": "info",
+      "title": "Where to find your Good Faith Estimate",
+      "body": "Try these places:\n\n\u2022 Your email (search for 'Good Faith Estimate' or 'cost estimate')\n\u2022 Your patient portal (look under documents or messages)\n\u2022 Your paperwork (check the folder of documents from before your procedure)\n\u2022 Call the provider and ask them to resend your GFE\n\nYou need the GFE to file a dispute, so it's worth tracking down. The total amount on the GFE is what we'll compare to your actual bill.",
+      "callout": {
+        "type": "tip",
+        "text": "If you can't find it, call the provider's billing department. They are required to keep records of GFEs and should be able to provide a copy."
+      },
+      "next": "insurance_status"
+    },
+    "insurance_status": {
+      "id": "insurance_status",
+      "type": "question",
+      "prompt": "What was your insurance status when you received this service?",
+      "subtext": "The GFE dispute process under the No Surprises Act applies specifically to uninsured and self-pay patients.",
+      "inputType": "radio",
+      "options": [
+        {
+          "label": "I was uninsured",
+          "value": "uninsured",
+          "next": "collect_gfe_details"
+        },
+        {
+          "label": "I chose to self-pay (did not use my insurance)",
+          "value": "self_pay",
+          "next": "collect_gfe_details"
+        },
+        {
+          "label": "I used my insurance for this service",
+          "value": "insured",
+          "next": "insured_info"
+        }
+      ]
+    },
+    "insured_info": {
+      "id": "insured_info",
+      "type": "info",
+      "title": "Different protections apply for insured patients",
+      "body": "The GFE dispute process under the No Surprises Act is specifically for uninsured and self-pay patients. If you used insurance, different protections apply:\n\n\u2022 If you received an out-of-network bill you didn't expect, the No Surprises Act's balance billing protections may apply, but through a different process (contact your insurer)\n\u2022 If your insurance denied a claim, you have appeal rights through your insurance company\n\u2022 If your cost-sharing (deductible, copay, coinsurance) seems too high, request an Explanation of Benefits and compare it to your plan details\n\nFor now, the best first step is requesting an itemized bill to check for errors.",
+      "callout": {
+        "type": "tip",
+        "text": "Start by requesting an itemized bill, then compare it to your Explanation of Benefits (EOB) from your insurance company."
+      },
+      "next": "insured_redirect"
+    },
+    "insured_redirect": {
+      "id": "insured_redirect",
+      "type": "redirect",
+      "targetTree": "itemized-bill",
+      "reason": "Let's start with an itemized bill request"
+    },
+    "collect_gfe_details": {
+      "id": "collect_gfe_details",
+      "type": "input",
+      "prompt": "GFE and bill comparison",
+      "subtext": "Enter the amounts from your Good Faith Estimate and your actual bill so we can determine if you qualify for the dispute process.",
+      "fields": [
+        {
+          "key": "gfeAmount",
+          "label": "Total on your Good Faith Estimate",
+          "inputType": "currency",
+          "placeholder": "0.00",
+          "required": true,
+          "validation": {
+            "min": 0,
+            "message": "Please enter the GFE amount"
+          }
+        },
+        {
+          "key": "billAmount",
+          "label": "Total on your actual bill",
+          "inputType": "currency",
+          "placeholder": "0.00",
+          "required": true,
+          "validation": {
+            "min": 0,
+            "message": "Please enter the actual bill amount"
+          }
+        },
+        {
+          "key": "dateOfService",
+          "label": "Date of service",
+          "inputType": "date",
+          "required": true
+        },
+        {
+          "key": "dateBillReceived",
+          "label": "Date you received the bill",
+          "inputType": "date",
+          "required": true
+        }
+      ],
+      "next": "check_threshold"
+    },
+    "check_threshold": {
+      "id": "check_threshold",
+      "type": "branch",
+      "conditions": [
+        {
+          "guard": {
+            "type": "greaterThan",
+            "field": "billGfeDifference",
+            "value": 399
+          },
+          "next": "eligible_info"
+        }
+      ],
+      "fallback": "below_threshold"
+    },
+    "below_threshold": {
+      "id": "below_threshold",
+      "type": "info",
+      "title": "The difference is below the $400 threshold",
+      "body": "The No Surprises Act dispute process requires that the actual bill exceeds the Good Faith Estimate by $400 or more. Based on the amounts you entered, the difference is below this threshold.\n\nThis doesn't mean you have no options:\n\n\u2022 Request an itemized bill to check for billing errors\n\u2022 Negotiate with the provider directly. Ask why the charges exceeded the estimate.\n\u2022 Apply for financial assistance if you're having trouble paying\n\u2022 Ask for a prompt-pay discount",
+      "callout": {
+        "type": "tip",
+        "text": "Even below the $400 threshold, the fact that your bill exceeded the estimate gives you an advantage in a negotiation. Providers know their estimates should be accurate."
+      },
+      "next": "below_threshold_redirect"
+    },
+    "below_threshold_redirect": {
+      "id": "below_threshold_redirect",
+      "type": "redirect",
+      "targetTree": "itemized-bill",
+      "reason": "Let's request an itemized bill to check for errors"
+    },
+    "eligible_info": {
+      "id": "eligible_info",
+      "type": "info",
+      "title": "You qualify to dispute this bill under the No Surprises Act",
+      "body": "Your bill exceeds your Good Faith Estimate by more than $400, which means you are eligible to initiate the Patient-Provider Dispute Resolution process.\n\nHere's what happens:\n\n1. You send a dispute letter to the provider (we'll generate this for you)\n2. The provider must stop all collection activity\n3. An independent dispute resolution entity reviews the case\n4. They make a binding determination on what you owe\n\nThe dispute resolution process is designed to be simple and accessible to patients.",
+      "callout": {
+        "type": "deadline",
+        "text": "You must file within 120 calendar days of receiving your bill. Don't wait. Send the dispute letter as soon as possible."
+      },
+      "next": "collect_provider_info"
+    },
+    "collect_provider_info": {
+      "id": "collect_provider_info",
+      "type": "input",
+      "prompt": "Provider information",
+      "subtext": "Enter the name and address from the bill you received.",
+      "fields": [
+        {
+          "key": "providerName",
+          "label": "Provider / facility name",
+          "inputType": "text",
+          "placeholder": "e.g., City Medical Center",
+          "required": true
+        },
+        {
+          "key": "billingDepartment",
+          "label": "Billing department (if listed)",
+          "inputType": "text",
+          "required": false
+        },
+        {
+          "key": "providerStreet",
+          "label": "Street address",
+          "inputType": "text",
+          "required": true
+        },
+        {
+          "key": "providerCity",
+          "label": "City",
+          "inputType": "text",
+          "required": true
+        },
+        {
+          "key": "providerState",
+          "label": "State",
+          "inputType": "state-select",
+          "required": true
+        },
+        {
+          "key": "providerZip",
+          "label": "ZIP code",
+          "inputType": "text",
+          "placeholder": "12345",
+          "required": true,
+          "validation": {
+            "pattern": "^\\d{5}(-\\d{4})?$",
+            "message": "Please enter a valid ZIP code"
+          }
+        },
+        {
+          "key": "accountNumber",
+          "label": "Account or reference number",
+          "inputType": "text",
+          "required": false
+        }
+      ],
+      "next": "collect_sender_info"
+    },
+    "collect_sender_info": {
+      "id": "collect_sender_info",
+      "type": "input",
+      "prompt": "Your information",
+      "subtext": "This is who the dispute letter is from.",
+      "meta": {
+        "helpText": "Your information stays in your browser and is never sent to us."
+      },
+      "fields": [
+        {
+          "key": "senderName",
+          "label": "Your full name",
+          "inputType": "text",
+          "placeholder": "As it appears on your medical records",
+          "required": true
+        },
+        {
+          "key": "senderStreet",
+          "label": "Your street address",
+          "inputType": "text",
+          "required": true
+        },
+        {
+          "key": "senderCity",
+          "label": "City",
+          "inputType": "text",
+          "required": true
+        },
+        {
+          "key": "senderState",
+          "label": "State",
+          "inputType": "state-select",
+          "required": true
+        },
+        {
+          "key": "senderZip",
+          "label": "ZIP code",
+          "inputType": "text",
+          "required": true,
+          "validation": {
+            "pattern": "^\\d{5}(-\\d{4})?$",
+            "message": "Please enter a valid ZIP code"
+          }
+        }
+      ],
+      "next": "generate_letter"
+    },
+    "generate_letter": {
+      "id": "generate_letter",
+      "type": "terminal",
+      "templateId": "no-surprises-dispute",
+      "letterTitle": "No Surprises Act Dispute Letter",
+      "nextSteps": [
+        {
+          "text": "Print this letter and send it via certified mail with return receipt requested",
+          "details": "Certified mail proves you sent the dispute within the 120-day window. Keep the receipt. You may need it if you escalate.",
+          "critical": true
+        },
+        {
+          "text": "Also file a dispute through CMS",
+          "details": "Visit cms.gov/medical-bill-rights or call 1-800-985-3059 to initiate the formal Patient-Provider Dispute Resolution (PPDR) process. There is a $25 administrative fee to file. This letter is your formal notice to the provider, but you should also file through the official government channel.",
+          "critical": true
+        },
+        {
+          "text": "Keep your Good Faith Estimate and the bill in a safe place",
+          "details": "You'll need both documents if the dispute goes to an independent resolution entity. Make copies of everything.",
+          "critical": true
+        },
+        {
+          "text": "Wait for the provider to respond",
+          "details": "The provider is required to stop collection activity while the dispute is pending. If they continue collecting, that is a violation of the No Surprises Act.",
+          "deadlineDays": 30,
+          "critical": false
+        },
+        {
+          "text": "If the provider doesn't comply, file a complaint",
+          "details": "You can file a complaint with CMS and your state's insurance commissioner. The provider can face penalties for violating the No Surprises Act.",
+          "critical": false
+        }
+      ],
+      "relatedWorkflows": ["itemized-bill"],
+      "relatedGuides": ["no-surprises-act"]
+    }
+  }
+}

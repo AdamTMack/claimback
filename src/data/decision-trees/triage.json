@@ -1,0 +1,122 @@
+{
+  "id": "triage",
+  "version": "1.0.0",
+  "title": "What's Going On?",
+  "description": "Figure out which tools can help with your medical bill situation",
+  "initialNode": "welcome",
+  "lastUpdated": "2026-03-15",
+  "nodes": {
+    "welcome": {
+      "id": "welcome",
+      "type": "info",
+      "title": "Let's figure out how to fight your bill",
+      "body": "We'll ask you a few questions to understand your situation, then guide you to the right tool. Everything you enter stays in your browser. We never see your data.",
+      "callout": {
+        "type": "tip",
+        "text": "This usually takes 2-3 minutes. You can stop and come back anytime. Your progress is saved."
+      },
+      "next": "what_happened"
+    },
+    "what_happened": {
+      "id": "what_happened",
+      "type": "question",
+      "prompt": "What best describes your situation?",
+      "subtext": "Pick the one that fits best. If you're not sure, that's okay. We'll help you figure it out.",
+      "inputType": "radio",
+      "options": [
+        {
+          "label": "I got a medical bill that seems too high",
+          "value": "bill_too_high",
+          "helpText": "The charges don't match what you expected, or the total seems unreasonable.",
+          "next": "bill_too_high_info"
+        },
+        {
+          "label": "I can't afford my medical bill",
+          "value": "cant_afford",
+          "helpText": "You received care and the bill is more than you can pay, regardless of whether the amount is correct.",
+          "next": "cant_afford_info"
+        },
+        {
+          "label": "My bill is much higher than what I was told it would cost",
+          "value": "higher_than_estimate",
+          "helpText": "You were given a cost estimate before your procedure, but the actual bill is significantly more.",
+          "next": "higher_than_estimate_info"
+        },
+        {
+          "label": "A debt collector contacted me about a medical bill",
+          "value": "collections",
+          "helpText": "Your medical bill has been sent to a collections agency.",
+          "next": "collections_info"
+        }
+      ]
+    },
+    "bill_too_high_info": {
+      "id": "bill_too_high_info",
+      "type": "info",
+      "title": "Step one: Get the details",
+      "body": "The most powerful first move is requesting an itemized bill. This forces the provider to break down every single charge. Studies show that 49-80% of medical bills contain errors, and you can only find them on the itemized version.\n\nThe summary bill they usually send (\"You owe $X\") hides the details. The itemized version shows every procedure code, every charge, every line item.",
+      "callout": {
+        "type": "legal-right",
+        "text": "You have the legal right to an itemized bill. Providers are required to give you one when you ask."
+      },
+      "next": "route_to_itemized"
+    },
+    "cant_afford_info": {
+      "id": "cant_afford_info",
+      "type": "info",
+      "title": "You may have more options than you think",
+      "body": "If you were treated at a nonprofit hospital (which most hospitals are), they are legally required to offer financial assistance to patients who qualify. This can reduce your bill significantly or even eliminate it entirely.\n\nThe income thresholds are often more generous than people expect. Many hospitals offer free care to families earning up to 200-400% of the Federal Poverty Level.",
+      "callout": {
+        "type": "legal-right",
+        "text": "Under Section 501(r) of the Internal Revenue Code, nonprofit hospitals must maintain a Financial Assistance Policy and help eligible patients."
+      },
+      "next": "route_to_charity"
+    },
+    "higher_than_estimate_info": {
+      "id": "higher_than_estimate_info",
+      "type": "info",
+      "title": "The No Surprises Act may protect you",
+      "body": "If you're uninsured or self-pay and you received a Good Faith Estimate before a scheduled service, federal law protects you when the actual bill exceeds that estimate by $400 or more.\n\nYou have the right to dispute the difference through an independent process, and the provider must stop collection while the dispute is pending.",
+      "callout": {
+        "type": "legal-right",
+        "text": "Under the No Surprises Act (2022), you can initiate a Patient-Provider Dispute Resolution process within 120 days."
+      },
+      "next": "route_to_nsa"
+    },
+    "collections_info": {
+      "id": "collections_info",
+      "type": "info",
+      "title": "You have rights against debt collectors",
+      "body": "When a medical bill goes to collections, the Fair Debt Collection Practices Act gives you powerful protections. You can demand that the collector prove the debt is valid, and while they're verifying it, they must stop collection activity.\n\nMany collection agencies cannot properly validate medical debts, and the statute of limitations may have already expired on yours.",
+      "callout": {
+        "type": "deadline",
+        "text": "Critical: You have 30 days from receiving the collector's written notice to send a validation demand. After that, they can continue collecting while they verify."
+      },
+      "next": "route_to_debt_validation"
+    },
+    "route_to_itemized": {
+      "id": "route_to_itemized",
+      "type": "redirect",
+      "targetTree": "itemized-bill",
+      "reason": "Let's generate your itemized bill request"
+    },
+    "route_to_charity": {
+      "id": "route_to_charity",
+      "type": "redirect",
+      "targetTree": "charity-care",
+      "reason": "Let's check if you qualify for financial assistance"
+    },
+    "route_to_nsa": {
+      "id": "route_to_nsa",
+      "type": "redirect",
+      "targetTree": "no-surprises-act",
+      "reason": "Let's file your No Surprises Act dispute"
+    },
+    "route_to_debt_validation": {
+      "id": "route_to_debt_validation",
+      "type": "redirect",
+      "targetTree": "debt-validation",
+      "reason": "Let's generate your debt validation demand"
+    }
+  }
+}

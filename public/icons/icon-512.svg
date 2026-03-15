@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#2563eb" rx="76.8"/>
+  <text x="256" y="230.4" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="179.2" font-weight="700" fill="white">CB</text>
+  <text x="256" y="363.52" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="51.2" font-weight="400" fill="rgba(255,255,255,0.85)">ClaimBack</text>
+</svg>

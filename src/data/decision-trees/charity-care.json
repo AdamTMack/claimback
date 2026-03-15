@@ -1,0 +1,333 @@
+{
+  "id": "charity-care",
+  "version": "1.0.0",
+  "title": "Financial Assistance Application",
+  "description": "Check if you qualify for charity care or financial assistance at a nonprofit hospital",
+  "initialNode": "what_is_charity_care",
+  "lastUpdated": "2026-03-15",
+  "nodes": {
+    "what_is_charity_care": {
+      "id": "what_is_charity_care",
+      "type": "info",
+      "title": "Most hospitals must offer financial help, and most patients never ask",
+      "body": "The majority of hospitals in the United States are nonprofit. In exchange for their tax-exempt status, federal law requires them to maintain a Financial Assistance Policy (FAP) and help patients who qualify.\n\nThis isn't charity in the traditional sense. It's a legal obligation. Depending on your income and the hospital's policy, your bill could be reduced by 25%, 50%, 75%, or even eliminated entirely.\n\nMany hospitals offer free care to families earning up to 200% of the Federal Poverty Level, and reduced-cost care up to 400%.",
+      "callout": {
+        "type": "legal-right",
+        "text": "Under Section 501(r) of the Internal Revenue Code, nonprofit hospitals must have a Financial Assistance Policy and cannot use extraordinary collection actions (lawsuits, liens, garnishment) without first screening patients for eligibility."
+      },
+      "next": "hospital_type"
+    },
+    "hospital_type": {
+      "id": "hospital_type",
+      "type": "question",
+      "prompt": "Is the hospital that treated you a nonprofit?",
+      "subtext": "Most hospitals in the US are nonprofit, including most major health systems. If you're not sure, that's okay. We'll help you figure it out.",
+      "inputType": "radio",
+      "options": [
+        {
+          "label": "Yes, it's a nonprofit hospital",
+          "value": "nonprofit",
+          "next": "collect_hospital_info"
+        },
+        {
+          "label": "No, it's a for-profit hospital",
+          "value": "for_profit",
+          "next": "for_profit_options"
+        },
+        {
+          "label": "I'm not sure",
+          "value": "unsure",
+          "helpText": "Most hospitals are nonprofit. If the hospital's name doesn't include words like 'Community,' 'Memorial,' or 'University,' you can check on the IRS Tax Exempt Organization Search.",
+          "next": "how_to_check"
+        }
+      ]
+    },
+    "for_profit_options": {
+      "id": "for_profit_options",
+      "type": "info",
+      "title": "For-profit hospitals aren't required to offer charity care, but they often will negotiate",
+      "body": "For-profit hospitals aren't bound by Section 501(r), so they don't have a legal obligation to offer financial assistance. However, many for-profit hospitals still have hardship programs because collecting some payment is better than none.\n\nHere's what you can do:\n\n• Call their billing department and ask about payment plans or hardship discounts\n• Request an itemized bill to check for errors first\n• Ask if they offer a prompt-pay discount (many offer 20-40% off for upfront payment)\n• Negotiate. Hospitals regularly accept less than the billed amount.",
+      "callout": {
+        "type": "tip",
+        "text": "Even without a legal right to financial assistance, many patients successfully negotiate their bills down 30-60% simply by asking."
+      },
+      "next": "collect_hospital_info"
+    },
+    "how_to_check": {
+      "id": "how_to_check",
+      "type": "info",
+      "title": "How to check if your hospital is nonprofit",
+      "body": "There are a few quick ways to find out:\n\n1. Search the IRS Tax Exempt Organization database at apps.irs.gov/app/eos\n2. Look at the hospital's website. Nonprofit hospitals usually mention their tax-exempt status in their 'About' section\n3. Call the hospital's billing department and ask directly: 'Is this hospital a 501(c)(3) nonprofit organization?'\n4. Check your state's hospital association website\n\nIf the hospital is part of a large health system (like HCA, Ascension, CommonSpirit, etc.), a quick web search for '[system name] nonprofit status' will usually tell you.\n\nDon't worry if you can't confirm. You can still send the application. The worst they can say is no.",
+      "callout": {
+        "type": "tip",
+        "text": "About 57% of US hospitals are nonprofit. If yours is one of them, they are legally required to have a Financial Assistance Policy."
+      },
+      "next": "collect_hospital_info"
+    },
+    "collect_hospital_info": {
+      "id": "collect_hospital_info",
+      "type": "input",
+      "prompt": "Hospital information",
+      "subtext": "Enter the name and address from the bill you received.",
+      "fields": [
+        {
+          "key": "providerName",
+          "label": "Hospital / provider name",
+          "inputType": "text",
+          "placeholder": "e.g., Memorial Regional Hospital",
+          "required": true
+        },
+        {
+          "key": "billingDepartment",
+          "label": "Billing department (if listed)",
+          "inputType": "text",
+          "placeholder": "e.g., Patient Financial Services",
+          "required": false
+        },
+        {
+          "key": "providerStreet",
+          "label": "Street address",
+          "inputType": "text",
+          "required": true
+        },
+        {
+          "key": "providerCity",
+          "label": "City",
+          "inputType": "text",
+          "required": true
+        },
+        {
+          "key": "providerState",
+          "label": "State",
+          "inputType": "state-select",
+          "required": true
+        },
+        {
+          "key": "providerZip",
+          "label": "ZIP code",
+          "inputType": "text",
+          "placeholder": "12345",
+          "required": true,
+          "validation": {
+            "pattern": "^\\d{5}(-\\d{4})?$",
+            "message": "Please enter a valid ZIP code (e.g., 12345 or 12345-6789)"
+          }
+        }
+      ],
+      "next": "collect_bill_info"
+    },
+    "collect_bill_info": {
+      "id": "collect_bill_info",
+      "type": "input",
+      "prompt": "Tell us about the bill",
+      "subtext": "This information will be included in your application so the hospital can locate your account.",
+      "fields": [
+        {
+          "key": "accountNumber",
+          "label": "Account or reference number",
+          "inputType": "text",
+          "placeholder": "From the top of your bill",
+          "required": false
+        },
+        {
+          "key": "dateOfService",
+          "label": "Date of service",
+          "inputType": "date",
+          "required": true
+        },
+        {
+          "key": "billAmount",
+          "label": "Total amount billed",
+          "inputType": "currency",
+          "placeholder": "0.00",
+          "required": true,
+          "validation": {
+            "min": 0,
+            "message": "Please enter a valid amount"
+          }
+        }
+      ],
+      "next": "collect_financial_info"
+    },
+    "collect_financial_info": {
+      "id": "collect_financial_info",
+      "type": "input",
+      "prompt": "Your financial information",
+      "subtext": "This is used to determine your eligibility for financial assistance. Be honest, because the hospital may ask for documentation.",
+      "meta": {
+        "helpText": "Your income and household information stays in your browser. We never see or store this data."
+      },
+      "fields": [
+        {
+          "key": "annualIncome",
+          "label": "Your total annual household income (before taxes)",
+          "inputType": "currency",
+          "placeholder": "0.00",
+          "required": true,
+          "validation": {
+            "min": 0,
+            "message": "Please enter your annual income"
+          }
+        },
+        {
+          "key": "householdSize",
+          "label": "Number of people in your household",
+          "inputType": "number",
+          "placeholder": "Including yourself",
+          "required": true,
+          "validation": {
+            "min": 1,
+            "max": 20,
+            "message": "Please enter a number between 1 and 20"
+          }
+        }
+      ],
+      "next": "collect_sender_info"
+    },
+    "collect_sender_info": {
+      "id": "collect_sender_info",
+      "type": "input",
+      "prompt": "Your information",
+      "subtext": "This is who the letter is from. Your name and address will appear on the application.",
+      "meta": {
+        "helpText": "We need your name and address so the hospital can identify your account and respond to you. This information stays in your browser."
+      },
+      "fields": [
+        {
+          "key": "senderName",
+          "label": "Your full name",
+          "inputType": "text",
+          "placeholder": "As it appears on your medical records",
+          "required": true
+        },
+        {
+          "key": "senderStreet",
+          "label": "Your street address",
+          "inputType": "text",
+          "required": true
+        },
+        {
+          "key": "senderCity",
+          "label": "City",
+          "inputType": "text",
+          "required": true
+        },
+        {
+          "key": "senderState",
+          "label": "State",
+          "inputType": "state-select",
+          "required": true
+        },
+        {
+          "key": "senderZip",
+          "label": "ZIP code",
+          "inputType": "text",
+          "required": true,
+          "validation": {
+            "pattern": "^\\d{5}(-\\d{4})?$",
+            "message": "Please enter a valid ZIP code"
+          }
+        }
+      ],
+      "next": "check_eligibility"
+    },
+    "check_eligibility": {
+      "id": "check_eligibility",
+      "type": "branch",
+      "conditions": [
+        {
+          "guard": {
+            "type": "lessThan",
+            "field": "fplPercentage",
+            "value": 201
+          },
+          "next": "likely_eligible"
+        },
+        {
+          "guard": {
+            "type": "lessThan",
+            "field": "fplPercentage",
+            "value": 401
+          },
+          "next": "possibly_eligible"
+        }
+      ],
+      "fallback": "higher_income_options"
+    },
+    "likely_eligible": {
+      "id": "likely_eligible",
+      "type": "info",
+      "title": "You likely qualify for significant financial assistance",
+      "body": "Based on the information you provided, your household income appears to be at or below 200% of the Federal Poverty Level. Most nonprofit hospitals offer free or near-free care at this income level.\n\nThis is a strong application. The letter we're about to generate will formally request a review of your eligibility under the hospital's Financial Assistance Policy.",
+      "callout": {
+        "type": "tip",
+        "text": "Many hospitals will forgive the entire bill for patients at your income level. Don't settle for a payment plan without first applying for financial assistance."
+      },
+      "next": "generate_letter"
+    },
+    "possibly_eligible": {
+      "id": "possibly_eligible",
+      "type": "info",
+      "title": "You may qualify for reduced-cost care",
+      "body": "Your household income appears to be between 200% and 400% of the Federal Poverty Level. Many nonprofit hospitals offer sliding-scale discounts at this level, typically 25% to 75% off the bill.\n\nEvery hospital sets its own thresholds, so it's always worth applying. The letter we generate will request a formal review of your eligibility.",
+      "callout": {
+        "type": "tip",
+        "text": "Even if the hospital's standard policy doesn't cover your income level, many hospitals grant exceptions on a case-by-case basis. Always apply."
+      },
+      "next": "generate_letter"
+    },
+    "higher_income_options": {
+      "id": "higher_income_options",
+      "type": "info",
+      "title": "Your income is above typical thresholds, but you should still apply",
+      "body": "Your household income appears to be above 400% of the Federal Poverty Level, which is above the threshold most hospitals use. However:\n\n• Some hospitals have higher thresholds (up to 500% or even 600% FPL)\n• Hospitals may consider extraordinary medical expenses, job loss, or other hardships\n• You may qualify for an interest-free payment plan\n• The hospital may offer a self-pay discount regardless of income\n\nThere is no downside to applying. The worst they can say is no.",
+      "callout": {
+        "type": "tip",
+        "text": "Include any extenuating circumstances in your application: recent job loss, other medical bills, disability, etc. Hospitals have discretion to grant assistance beyond their standard thresholds."
+      },
+      "next": "generate_letter"
+    },
+    "generate_letter": {
+      "id": "generate_letter",
+      "type": "terminal",
+      "templateId": "charity-care-application",
+      "letterTitle": "Financial Assistance Application",
+      "nextSteps": [
+        {
+          "text": "Print this letter and send it via certified mail with return receipt requested",
+          "details": "Certified mail creates a legal record that the hospital received your application. Keep the receipt.",
+          "critical": true
+        },
+        {
+          "text": "Also submit the hospital's own financial assistance application form",
+          "details": "Most hospitals have their own form in addition to accepting letters. Call the billing department and ask for their Financial Assistance Application. This letter covers you while you complete their process.",
+          "critical": true
+        },
+        {
+          "text": "Gather supporting documents",
+          "details": "The hospital will likely ask for: recent tax return, pay stubs (2-3 months), bank statements, proof of other expenses (rent, other medical bills). Having these ready speeds up the process.",
+          "critical": true
+        },
+        {
+          "text": "Request that collection activity be paused while your application is reviewed",
+          "details": "Under 501(r), nonprofit hospitals cannot take extraordinary collection actions while a financial assistance application is pending. Your letter includes this request.",
+          "deadlineDays": 30,
+          "critical": false
+        },
+        {
+          "text": "Follow up if you don't hear back within 30 days",
+          "details": "Call the billing department and reference your certified mail receipt date. Ask for the status of your financial assistance application.",
+          "deadlineDays": 30,
+          "critical": false
+        },
+        {
+          "text": "If denied, appeal and consider requesting an itemized bill",
+          "details": "You can appeal a denial. Also request an itemized bill. If there are billing errors, getting those corrected may reduce the bill enough to bring it within your means.",
+          "critical": false
+        }
+      ],
+      "relatedWorkflows": ["itemized-bill"],
+      "relatedGuides": ["charity-care"]
+    }
+  }
+}

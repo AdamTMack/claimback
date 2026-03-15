@@ -1,0 +1,326 @@
+{
+  "id": "debt-validation",
+  "version": "1.0.0",
+  "title": "Debt Validation Demand",
+  "description": "Exercise your FDCPA rights to demand proof that a debt collector can prove the debt is valid",
+  "initialNode": "what_is_fdcpa",
+  "lastUpdated": "2026-03-15",
+  "nodes": {
+    "what_is_fdcpa": {
+      "id": "what_is_fdcpa",
+      "type": "info",
+      "title": "You have powerful rights against debt collectors",
+      "body": "The Fair Debt Collection Practices Act (FDCPA) gives you the right to demand that a debt collector prove the debt they're trying to collect is actually valid. This is called debt validation.\n\nHere's why this matters:\n\n\u2022 Many medical debts are sold and resold, so the collector may not have proper documentation\n\u2022 The amount may have been inflated with improper fees or interest\n\u2022 The statute of limitations may have expired, meaning the debt is too old to be legally collected\n\u2022 The original bill may have contained errors that were never corrected\n\nWhile the collector is validating the debt, they must stop all collection activity: no calls, no letters, no credit reporting.",
+      "callout": {
+        "type": "warning",
+        "text": "IMPORTANT: Do not acknowledge the debt, make any payment (even a small one), or discuss the debt on the phone until you've sent this letter. Any of these actions could restart the statute of limitations."
+      },
+      "next": "lawsuit_check"
+    },
+    "lawsuit_check": {
+      "id": "lawsuit_check",
+      "type": "question",
+      "prompt": "Has the debt collector filed a lawsuit against you?",
+      "subtext": "This means you've been served with court papers, not just letters or phone calls.",
+      "inputType": "radio",
+      "options": [
+        {
+          "label": "Yes, I've been served with a lawsuit",
+          "value": "yes",
+          "next": "need_lawyer"
+        },
+        {
+          "label": "No, just letters and/or phone calls",
+          "value": "no",
+          "next": "first_contact"
+        },
+        {
+          "label": "I'm not sure",
+          "value": "unsure",
+          "helpText": "If someone came to your door or you received papers from a court, that's a lawsuit. Collection letters from companies are not lawsuits.",
+          "next": "first_contact"
+        }
+      ]
+    },
+    "need_lawyer": {
+      "id": "need_lawyer",
+      "type": "info",
+      "title": "If you've been sued, you need legal help immediately",
+      "body": "When a debt collector files a lawsuit, you have a limited time to respond (usually 20-30 days depending on your state). If you don't respond, the collector gets a default judgment, which allows them to garnish wages, freeze bank accounts, and place liens on property.\n\nThis is beyond what a template letter can handle. You need an attorney.\n\nHere's what to do right now:\n\n1. DO NOT ignore the lawsuit. This is the worst thing you can do.\n2. Look for the deadline to respond on the court papers\n3. Contact a legal aid organization in your area (many handle debt cases for free)\n4. Search for FDCPA attorneys. Many work on contingency (no upfront cost).",
+      "callout": {
+        "type": "deadline",
+        "text": "You typically have 20-30 days from being served to respond to a lawsuit. Missing this deadline could result in wage garnishment or bank account seizure."
+      },
+      "next": "need_lawyer_terminal"
+    },
+    "need_lawyer_terminal": {
+      "id": "need_lawyer_terminal",
+      "type": "terminal",
+      "templateId": "",
+      "letterTitle": "Legal Help Needed",
+      "nextSteps": [
+        {
+          "text": "Find your deadline to respond to the lawsuit",
+          "details": "Check the court papers you were served. The deadline to file an 'Answer' is usually 20-30 days. Mark this date. It's critical.",
+          "critical": true
+        },
+        {
+          "text": "Contact legal aid immediately",
+          "details": "Visit lawhelp.org or call 211 to find free legal services in your area. Many legal aid organizations specialize in consumer debt cases.",
+          "critical": true
+        },
+        {
+          "text": "Search for FDCPA attorneys",
+          "details": "Many attorneys who handle FDCPA cases work on contingency, meaning they get paid only if you win. The FDCPA allows recovery of attorney's fees from the collector. Search the National Association of Consumer Advocates at consumeradvocates.org.",
+          "critical": true
+        },
+        {
+          "text": "Do NOT contact the debt collector directly",
+          "details": "Once a lawsuit has been filed, all communication should go through your attorney or through the court. Do not call the collector, do not make any payments, and do not sign anything.",
+          "critical": true
+        },
+        {
+          "text": "Gather your documents",
+          "details": "Collect any letters from the collector, the original medical bill, any Explanation of Benefits from insurance, and the court papers you were served.",
+          "critical": false
+        }
+      ],
+      "relatedWorkflows": [],
+      "relatedGuides": ["when-to-get-a-lawyer", "dealing-with-collectors"]
+    },
+    "first_contact": {
+      "id": "first_contact",
+      "type": "input",
+      "prompt": "When did you first hear from this collector?",
+      "subtext": "Enter the date you received written notice from the collector (a letter or initial communication). You have the strongest protections within 30 days of receiving their written notice.",
+      "fields": [
+        {
+          "key": "firstContactDate",
+          "label": "Date you received written notice from collector",
+          "inputType": "date",
+          "required": true
+        }
+      ],
+      "next": "check_30_day_window"
+    },
+    "check_30_day_window": {
+      "id": "check_30_day_window",
+      "type": "branch",
+      "conditions": [
+        {
+          "guard": {
+            "type": "lessThan",
+            "field": "daysSinceFirstContact",
+            "value": 31
+          },
+          "next": "within_window"
+        }
+      ],
+      "fallback": "past_window"
+    },
+    "within_window": {
+      "id": "within_window",
+      "type": "info",
+      "title": "You're within the 30-day validation window",
+      "body": "You first heard from this collector less than 30 days ago. This means you have the full protection of the FDCPA's validation rights.\n\nWhen you send a validation demand within 30 days, the collector MUST:\n\n\u2022 Stop all collection activity immediately\n\u2022 Not report to credit bureaus until validation is complete\n\u2022 Provide you with proof the debt is valid before contacting you again\n\nMany collectors cannot properly validate medical debts because the documentation gets lost or was never complete. If they can't validate, they must stop trying to collect.",
+      "callout": {
+        "type": "tip",
+        "text": "Sending a validation demand within 30 days puts the legal burden entirely on the collector. They must prove the debt. You don't have to prove anything."
+      },
+      "next": "collect_collector_info"
+    },
+    "past_window": {
+      "id": "past_window",
+      "type": "info",
+      "title": "You're past the 30-day window, but the letter is still valuable",
+      "body": "More than 30 days have passed since you received the collector's written notice. Here's what that means:\n\n\u2022 You can still demand validation. The right doesn't expire.\n\u2022 However, the collector is not legally required to stop collecting while they verify\n\u2022 The letter still creates a legal record of your dispute\n\u2022 If they continue collecting without validating, it strengthens a potential FDCPA claim\n\nThe demand letter is still worth sending because:\n\n1. Many collectors stop collecting anyway when they receive a validation demand\n2. If they can't validate and continue collecting, they may be violating the FDCPA\n3. It forces them to prove the debt amount is correct\n4. It creates a paper trail if you need to escalate",
+      "callout": {
+        "type": "tip",
+        "text": "Send the letter anyway. Many collectors will stop collecting regardless of the 30-day window because they know validation demands often lead to FDCPA lawsuits if they continue without proper documentation."
+      },
+      "next": "collect_collector_info"
+    },
+    "collect_collector_info": {
+      "id": "collect_collector_info",
+      "type": "input",
+      "prompt": "Debt collector information",
+      "subtext": "Enter the name and address of the collection agency that contacted you. This should be on the letters they sent or in any voicemails.",
+      "fields": [
+        {
+          "key": "collectorName",
+          "label": "Collection agency name",
+          "inputType": "text",
+          "placeholder": "e.g., ABC Collections, Inc.",
+          "required": true
+        },
+        {
+          "key": "collectorStreet",
+          "label": "Street address",
+          "inputType": "text",
+          "required": true
+        },
+        {
+          "key": "collectorCity",
+          "label": "City",
+          "inputType": "text",
+          "required": true
+        },
+        {
+          "key": "collectorState",
+          "label": "State",
+          "inputType": "state-select",
+          "required": true
+        },
+        {
+          "key": "collectorZip",
+          "label": "ZIP code",
+          "inputType": "text",
+          "placeholder": "12345",
+          "required": true,
+          "validation": {
+            "pattern": "^\\d{5}(-\\d{4})?$",
+            "message": "Please enter a valid ZIP code"
+          }
+        },
+        {
+          "key": "referenceNumber",
+          "label": "Reference or account number (from collector's letter)",
+          "inputType": "text",
+          "required": false
+        }
+      ],
+      "next": "collect_debt_details"
+    },
+    "collect_debt_details": {
+      "id": "collect_debt_details",
+      "type": "input",
+      "prompt": "About the debt",
+      "subtext": "Enter what you know about the debt from the collector's letters or calls.",
+      "fields": [
+        {
+          "key": "amountClaimed",
+          "label": "Amount the collector claims you owe",
+          "inputType": "currency",
+          "placeholder": "0.00",
+          "required": true,
+          "validation": {
+            "min": 0,
+            "message": "Please enter the claimed amount"
+          }
+        },
+        {
+          "key": "originalCreditor",
+          "label": "Original creditor (hospital or provider name)",
+          "inputType": "text",
+          "placeholder": "Who originally billed you",
+          "required": false
+        },
+        {
+          "key": "dateOfService",
+          "label": "Approximate date of service (if known)",
+          "inputType": "date",
+          "required": false
+        }
+      ],
+      "next": "collect_sender_info"
+    },
+    "collect_sender_info": {
+      "id": "collect_sender_info",
+      "type": "input",
+      "prompt": "Your information",
+      "subtext": "This is who the demand letter is from.",
+      "meta": {
+        "helpText": "Your information stays in your browser and is never sent to us."
+      },
+      "fields": [
+        {
+          "key": "senderName",
+          "label": "Your full name",
+          "inputType": "text",
+          "required": true
+        },
+        {
+          "key": "senderStreet",
+          "label": "Your street address",
+          "inputType": "text",
+          "required": true
+        },
+        {
+          "key": "senderCity",
+          "label": "City",
+          "inputType": "text",
+          "required": true
+        },
+        {
+          "key": "senderState",
+          "label": "State",
+          "inputType": "state-select",
+          "required": true
+        },
+        {
+          "key": "senderZip",
+          "label": "ZIP code",
+          "inputType": "text",
+          "required": true,
+          "validation": {
+            "pattern": "^\\d{5}(-\\d{4})?$",
+            "message": "Please enter a valid ZIP code"
+          }
+        }
+      ],
+      "next": "important_warnings"
+    },
+    "important_warnings": {
+      "id": "important_warnings",
+      "type": "info",
+      "title": "Critical: Read this before sending your letter",
+      "body": "After you send this letter, follow these rules strictly:\n\n\u2022 DO NOT call the collector or answer their calls\n\u2022 DO NOT make any payment, even a small \"good faith\" payment, because this could restart the statute of limitations\n\u2022 DO NOT acknowledge the debt verbally or in writing\n\u2022 DO NOT negotiate any payment arrangement until they provide full validation\n\u2022 DO keep records of any contact they make after receiving your letter\n\nIf the collector contacts you after receiving this letter and before providing validation, log the date, time, and what was said. Each violation of the FDCPA can result in up to $1,000 in statutory damages, plus any actual damages you suffered.",
+      "callout": {
+        "type": "warning",
+        "text": "Every contact from the collector after they receive your letter (and before they validate) is a potential FDCPA violation worth up to $1,000 in damages."
+      },
+      "next": "generate_letter"
+    },
+    "generate_letter": {
+      "id": "generate_letter",
+      "type": "terminal",
+      "templateId": "debt-validation-demand",
+      "letterTitle": "Debt Validation Demand Letter",
+      "nextSteps": [
+        {
+          "text": "Print this letter and send it via certified mail with return receipt requested",
+          "details": "Certified mail is essential. It proves the collector received your demand. Without proof of delivery, the collector could claim they never received it.",
+          "critical": true
+        },
+        {
+          "text": "Keep a copy of everything",
+          "details": "Save a copy of the letter, the certified mail receipt, and all letters or notices you've received from the collector.",
+          "critical": true
+        },
+        {
+          "text": "Do NOT contact the collector",
+          "details": "After sending this letter, do not call them, do not answer their calls, and do not make any payments. Let the letter do the work.",
+          "critical": true
+        },
+        {
+          "text": "Log any contact from the collector",
+          "details": "If they call, send letters, or take any collection action before providing validation, write down the date, time, and what happened. These are potential FDCPA violations.",
+          "critical": true
+        },
+        {
+          "text": "Wait for their response (allow 30 days)",
+          "details": "The collector should respond with validation documents or stop contacting you. If they provide validation, review it carefully for accuracy.",
+          "deadlineDays": 30,
+          "critical": false
+        },
+        {
+          "text": "If they violate the FDCPA, consider consulting a consumer rights attorney",
+          "details": "FDCPA attorneys often work on contingency. The law provides for statutory damages of up to $1,000 per lawsuit plus attorney's fees. Visit consumeradvocates.org to find a qualified attorney.",
+          "critical": false
+        }
+      ],
+      "relatedWorkflows": ["itemized-bill", "charity-care"],
+      "relatedGuides": ["dealing-with-collectors", "when-to-get-a-lawyer"]
+    }
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "lastUpdated": "2026-03-15",
+  "fplGuidelines": {
+    "year": 2025,
+    "source": "U.S. Department of Health and Human Services",
+    "note": "For the 48 contiguous states and DC. Alaska and Hawaii have higher thresholds.",
+    "thresholds": {
+      "1": 15650,
+      "2": 21150,
+      "3": 26650,
+      "4": 32150,
+      "5": 37650,
+      "6": 43150,
+      "7": 48650,
+      "8": 54150
+    },
+    "additionalPersonIncrement": 5500
+  },
+  "citations": {
+    "section501r": {
+      "statute": "26 USC § 501(r)",
+      "shortName": "Section 501(r) — Charitable Hospital Requirements",
+      "summary": "Requires tax-exempt hospitals to establish a Financial Assistance Policy (FAP), make reasonable efforts to determine FAP eligibility before extraordinary collection actions, limit charges to FAP-eligible patients, and bill FAP-eligible patients no more than amounts generally billed to insured patients.",
+      "enforcementAgency": "Internal Revenue Service (IRS)",
+      "complaintUrl": "https://www.irs.gov/charities-non-profits/charitable-organizations/complaints-about-tax-exempt-organizations",
+      "keyProvisions": [
+        "Hospitals must have a written Financial Assistance Policy",
+        "FAP must be widely publicized and available in the community",
+        "Hospitals must make reasonable efforts to determine eligibility before sending bills to collections",
+        "FAP-eligible patients cannot be charged more than amounts generally billed to insured patients",
+        "Hospitals cannot use extraordinary collection actions (liens, garnishment, lawsuits) without first making reasonable efforts to determine FAP eligibility"
+      ]
+    },
+    "fdcpa": {
+      "statute": "15 USC § 1692",
+      "shortName": "Fair Debt Collection Practices Act (FDCPA)",
+      "summary": "Prohibits abusive, unfair, and deceptive practices by third-party debt collectors. Gives consumers the right to demand debt validation within 30 days of receiving written notice from the collector, during which collection activity must cease.",
+      "enforcementAgency": "Consumer Financial Protection Bureau (CFPB)",
+      "complaintUrl": "https://www.consumerfinance.gov/complaint/",
+      "keyProvisions": [
+        "Collectors must send written notice of the debt within 5 days of first contact",
+        "Consumers have 30 days to dispute the debt in writing",
+        "During the validation period, collector must cease collection activity",
+        "Collector must provide verification of the debt if disputed",
+        "Collectors cannot call before 8am or after 9pm",
+        "Collectors cannot use threats, harassment, or deceptive practices",
+        "Collectors cannot contact consumers at work if told not to"
+      ],
+      "validationRights": {
+        "windowDays": 30,
+        "description": "Consumer must send written dispute within 30 days of receiving initial notice. After 30 days, consumer can still dispute but collector is not required to stop collection during verification."
+      }
+    },
+    "noSurprisesAct": {
+      "statute": "Public Law 116-260, Division BB, Title I",
+      "cfr": "45 CFR Part 149",
+      "shortName": "No Surprises Act — Good Faith Estimate Protections",
+      "summary": "Requires healthcare providers to give uninsured/self-pay patients a Good Faith Estimate (GFE) of expected charges. If the actual bill exceeds the GFE by $400 or more, patients can initiate a Patient-Provider Dispute Resolution (PPDR) process.",
+      "enforcementAgency": "Centers for Medicare & Medicaid Services (CMS)",
+      "complaintUrl": "https://www.cms.gov/nosurprises/consumers",
+      "keyProvisions": [
+        "Providers must give GFE to uninsured/self-pay patients upon scheduling or request",
+        "GFE must be provided at least 1 business day before scheduled service (3 days for services scheduled 10+ days out)",
+        "If actual charges exceed GFE by $400 or more, patient can initiate PPDR",
+        "PPDR must be initiated within 120 calendar days of receiving the bill",
+        "Provider must not pursue collection while PPDR is pending",
+        "Independent dispute resolution entity makes binding determination"
+      ],
+      "disputeThreshold": 400,
+      "disputeWindowDays": 120
+    },
+    "hipaaPatientRights": {
+      "statute": "45 CFR § 164.524",
+      "shortName": "HIPAA Right of Access",
+      "summary": "Patients have the right to access their medical records and billing information, including itemized statements of charges.",
+      "enforcementAgency": "Office for Civil Rights (OCR), HHS",
+      "complaintUrl": "https://www.hhs.gov/hipaa/filing-a-complaint/index.html"
+    }
+  }
+}
