@@ -8,6 +8,7 @@
   "theme_color": "#3868a8",
   "orientation": "portrait-primary",
   "categories": ["health", "finance", "utilities"],
+  "lang": "en-US",
   "icons": [
     {
       "src": "/icons/icon-192.svg",
