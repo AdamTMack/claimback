@@ -1,0 +1,164 @@
+"use client";
+
+import { useCallback } from "react";
+import type { TerminalNode } from "@/types/decision-tree";
+
+interface TerminalStepProps {
+  node: TerminalNode;
+  letterHtml: string;
+  onBack?: () => void;
+  canGoBack: boolean;
+  onReset: () => void;
+}
+
+export function TerminalStep({
+  node,
+  letterHtml,
+  onBack,
+  canGoBack,
+  onReset,
+}: TerminalStepProps) {
+  const handlePrint = useCallback(() => {
+    window.print();
+  }, []);
+
+  const handleCopyText = useCallback(async () => {
+    // Strip HTML tags for plain text copy
+    const div = document.createElement("div");
+    div.innerHTML = letterHtml;
+    const text = div.textContent || div.innerText || "";
+    await navigator.clipboard.writeText(text);
+  }, [letterHtml]);
+
+  const hasLetter = letterHtml && letterHtml.trim().length > 0;
+
+  return (
+    <div className="space-y-8">
+      {/* Success header */}
+      <div className={`${hasLetter ? "bg-[#eef5f0] border-[#c2dcc9]" : "bg-[#faf3e8] border-[#e2ddd3]"} border rounded-[14px] p-6`}>
+        <h2 className={`text-2xl font-semibold ${hasLetter ? "text-[#3d6b4e]" : "text-[#7a5c28]"}`}>
+          {hasLetter ? `Your ${node.letterTitle} is ready` : node.letterTitle}
+        </h2>
+        <p className={`mt-2 ${hasLetter ? "text-[#3d6b4e]" : "text-[#876025]"}`}>
+          {hasLetter
+            ? "Review the letter below. You can print it, copy the text, or download it as a PDF using your browser's print dialog."
+            : "Follow the steps below carefully. Your situation requires action beyond what a template letter can provide."}
+        </p>
+      </div>
+
+      {/* Letter preview — only shown when there's a letter */}
+      {hasLetter && (
+        <div className="border-2 border-[#e2ddd3] rounded-[14px]">
+          <div className="bg-[#eee9df] border-b border-[#e2ddd3] px-4 py-3 flex items-center justify-between">
+            <h3 className="font-medium text-[#5c6b62]">Letter Preview</h3>
+            <div className="flex gap-2">
+              <button
+                onClick={handleCopyText}
+                className="px-4 py-2 text-sm bg-white border border-[#e2ddd3] rounded-[10px] hover:bg-[#eee9df] transition-colors text-[#5c6b62]"
+                aria-label="Copy letter text to clipboard"
+              >
+                Copy Text
+              </button>
+              <button
+                onClick={handlePrint}
+                className="px-4 py-2 text-sm bg-[#3868a8] text-white rounded-[10px] hover:bg-[#2d5590] transition-colors"
+                aria-label="Open print dialog to print or save as PDF"
+              >
+                Print / Save PDF
+              </button>
+            </div>
+          </div>
+          <div
+            id="letter-content"
+            className="p-8 bg-white prose max-w-none print:p-0"
+            dangerouslySetInnerHTML={{ __html: letterHtml }}
+            aria-label="Generated dispute letter"
+          />
+        </div>
+      )}
+
+      {/* Next steps */}
+      <div>
+        <h3 className="text-xl font-normal font-[family-name:var(--font-fraunces)] text-[#1f2a24] mb-4">
+          What to do next
+        </h3>
+        <ol className="space-y-3" aria-label="Next steps to follow">
+          {node.nextSteps.map((step, i) => (
+            <li
+              key={i}
+              className={`
+                flex items-start gap-3 p-4 rounded-[14px] border
+                ${
+                  step.critical
+                    ? "bg-[#faf3e8] border-[#e2ddd3]"
+                    : "bg-white border-[#e2ddd3]"
+                }
+              `}
+            >
+              <span
+                className={`
+                  shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold
+                  ${
+                    step.critical
+                      ? "bg-[#876025] text-white"
+                      : "bg-[#e2ddd3] text-[#5c6b62]"
+                  }
+                `}
+                aria-hidden="true"
+              >
+                {i + 1}
+              </span>
+              <div>
+                <p
+                  className={`font-medium ${step.critical ? "text-[#7a5c28]" : "text-[#1f2a24]"}`}
+                >
+                  {step.text}
+                </p>
+                {step.details && (
+                  <p className="mt-1 text-sm font-light text-[#5c6b62]">{step.details}</p>
+                )}
+                {step.deadlineDays && (
+                  <p className="mt-1 text-sm font-medium text-[#b04a3c]">
+                    Deadline: within {step.deadlineDays} days
+                  </p>
+                )}
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      {/* Disclaimer on generated letter */}
+      <div className="bg-[#eee9df] border border-[#e2ddd3] rounded-[14px] p-4 text-sm text-[#5c6b62]">
+        <p>
+          <strong>Disclaimer:</strong> This letter was generated by ClaimBack, a
+          free educational tool. It has not been reviewed by an attorney. The
+          legal citations are provided for informational purposes. For advice
+          about your specific situation, consult a licensed attorney or contact
+          your state&apos;s legal aid organization.
+        </p>
+      </div>
+
+      {/* Actions */}
+      <div className="flex justify-between pt-4 border-t border-[#e2ddd3]">
+        {canGoBack ? (
+          <button
+            onClick={onBack}
+            className="px-6 py-3 text-[#5c6b62] hover:text-[#1f2a24] font-medium transition-colors"
+            aria-label="Go back to previous step"
+          >
+            Back
+          </button>
+        ) : (
+          <div />
+        )}
+        <button
+          onClick={onReset}
+          className="px-8 py-3 bg-[#5c6b62] text-white rounded-[10px] font-medium hover:bg-[#4a5950] shadow-sm transition-all"
+        >
+          Start Over
+        </button>
+      </div>
+    </div>
+  );
+}
