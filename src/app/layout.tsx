@@ -30,6 +30,9 @@ export const metadata: Metadata = {
     statusBarStyle: "default",
     title: "ClaimBack",
   },
+  other: {
+    "mobile-web-app-capable": "yes",
+  },
 };
 
 export default function RootLayout({
